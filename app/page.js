@@ -2,11 +2,10 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
-import { amplitudeClient, logEvent } from "../lib/amplitude"
+import { logEvent } from "../lib/amplitude"
 
 export default function Home() {
   useEffect(() => {
-    amplitudeClient;
     const handleClick = (event) => {
       const card = event.currentTarget;
       const title = card.querySelector('.card-title').textContent;

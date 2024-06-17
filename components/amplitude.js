@@ -36,7 +36,7 @@ sessionReplay.setSessionId(sessionId);
 const sessionReplayProperties = sessionReplay.getSessionReplayProperties();
 
 // Log an event
-export const logEvent = async (event: string, eventProps: object) => {
+export const logEvent = async (event, eventProps) => {
     await track(event, {
       ...eventProps,
       ...sessionReplayProperties
