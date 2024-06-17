@@ -1,7 +1,5 @@
 import { init, track, identify, Identify, Revenue } from '@amplitude/analytics-node';
 import { v4 as uuidv4 } from 'uuid';
-import Dexie from 'dexie';
-import indexedDB from 'fake-indexeddb';
 // Session Replay 
 import * as sessionReplay from "@amplitude/session-replay-browser";
 
@@ -14,7 +12,7 @@ console.log("Device ID is: " + uuid)
 console.log("Session ID is: " + sessionId)
 
 // Initialize Amplitude
-const amplitudeClient = async () => {
+export const amplitudeClient = async () => {
     init(AMPLITUDE_API_KEY, {
         flushIntervalMillis: 500,
         flushQueueSize: 1
@@ -28,8 +26,6 @@ const amplitudeClient = async () => {
         sampleRate: 100
     }).promise;
 }
-
-amplitudeClient();
 
 // Call whenever the session id changes
 sessionReplay.setSessionId(sessionId);

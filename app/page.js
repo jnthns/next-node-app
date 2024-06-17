@@ -1,29 +1,30 @@
 'use client'
 
-import { useEffect,useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
-import { logEvent } from "../lib/amplitude"
+import { amplitudeClient, logEvent } from "../lib/amplitude"
 
 export default function Home() {
   useEffect(() => {
-      const handleClick = (event) => {
-        const card = event.currentTarget;
-        const title = card.querySelector('.card-title').textContent;
-        const content = card.querySelector('.card-text').textContent;
-        logEvent("Card Clicked", { title: title, content: content });
-      };
-  
-      const cards = document.querySelectorAll('.card');
+    amplitudeClient;
+    const handleClick = (event) => {
+      const card = event.currentTarget;
+      const title = card.querySelector('.card-title').textContent;
+      const content = card.querySelector('.card-text').textContent;
+      logEvent("Card Clicked", { title: title, content: content });
+    };
+
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.addEventListener('click', handleClick);
+    });
+
+    return () => {
       cards.forEach(card => {
-        card.addEventListener('click', handleClick);
+        card.removeEventListener('click', handleClick);
       });
-  
-      return () => {
-        cards.forEach(card => {
-          card.removeEventListener('click', handleClick);
-        });
-      };
-    }, []);
+    };
+  }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -41,7 +42,7 @@ export default function Home() {
           >
             By{" "}
             <Image
-              src="/vercel.svg"
+              src="vercel.svg"
               alt="Vercel Logo"
               className="dark:invert"
               width={100}
