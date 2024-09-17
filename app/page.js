@@ -1,18 +1,21 @@
 'use client'
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { logEvent } from "../lib/amplitude"
+import { logEvent, rudderanalytics } from "../lib/amplitude"
 import Amplitude from "../lib/amplitude"
+import AmplitudeExperiment from "../lib/AmplitudeExperiment"
 
 export default function Home() {
-  useEffect(() => {
+  const [variantText, setVariantText] = useState('');
 
+  useEffect(() => {
     const handleClick = (event) => {
       const card = event.currentTarget;
       const title = card.querySelector('.card-title').textContent;
       const content = card.querySelector('.card-text').textContent;
       logEvent("Card Clicked", { title: title, content: content });
+      rudderanalytics.track("Card Clicked", { title: title, content: content });
     };
 
     const cards = document.querySelectorAll('.card');
@@ -30,11 +33,11 @@ export default function Home() {
   return (
     <>
     <Amplitude />
+    <AmplitudeExperiment setVariantText={setVariantText}/>
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
+        <p className="amp-mask toptext fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+        {variantText || 'Experiment is deactivated'}
         </p>
         <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
           <a
@@ -91,7 +94,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <h2 className="mb-3 text-2xl font-semibold card-title">
+          <h2 className="amp-mask mb-3 text-2xl font-semibold card-title">
             Learn{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
@@ -108,7 +111,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <h2 className="mb-3 text-2xl font-semibold card-title">
+          <h2 className="amp-mask mb-3 text-2xl font-semibold card-title">
             Templates{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
@@ -127,11 +130,11 @@ export default function Home() {
         >
           <h2 className="mb-3 text-2xl font-semibold card-title">
             Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+            <span className="amp-mask inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
           </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50 card-text">
+          <p className="amp-mask m-0 max-w-[30ch] text-sm opacity-50 card-text">
             Instantly deploy your Amplitude site to a shareable URL with Vercel.
           </p>
         </a>
