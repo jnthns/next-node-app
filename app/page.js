@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { logEvent, rudderanalytics } from "../lib/amplitude"
+import { logEvent, transformEvent, rudderanalytics } from "../lib/amplitude"
 import Amplitude from "../lib/amplitude"
 import AmplitudeExperiment from "../lib/AmplitudeExperiment"
 
@@ -14,6 +14,7 @@ export default function Home() {
       const card = event.currentTarget;
       const title = card.querySelector('.card-title').textContent;
       const content = card.querySelector('.card-text').textContent;
+      rudderanalytics.track(transformEvent(event))
       logEvent("Card Clicked", { title: title, content: content });
       rudderanalytics.track("Card Clicked", { title: title, content: content });
     };
